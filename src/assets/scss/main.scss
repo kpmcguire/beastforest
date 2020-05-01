@@ -1,0 +1,567 @@
+@import 'variables';
+@import 'typography';
+@import 'mixins';
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: $main-font;
+}
+
+body {
+  background-color: silver;
+}
+
+.squircle {
+  @include elliptical-corners(silver, 100);
+  padding: 0.75em 1em;
+  background-color: $light-blue;
+  background: linear-gradient(0deg, $light-blue 0%, rgba(2,0,36,1) 100%); 
+  line-height: 1;
+  margin: 1em 0;
+  
+  p {
+    margin: 0;
+    color: darken($light-blue, 40)
+  }
+}
+
+// @-moz-document url-prefix() { 
+//   .squircle {
+//     &::before {
+//       transform: rotate(0) translatex(0) scale(2);        
+//     }
+//     &::after {
+//       transform: scale(2) rotate(90deg) translatex(100%);    
+//     }
+//     .content::before {
+//       transform: scale(2) rotate(-90deg) translatex(0%) translatey(100%);
+//     }
+//     .content::after {
+//       transform: scale(2) rotate(180deg) translatex(100%) translatey(100%); 
+//     }            
+//   }
+// }
+
+h1 {
+  color: $dark-brown;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.section-blue {
+  background: $light-blue;
+  
+  h1 {
+    color: $dark-blue;
+  }
+}
+
+.section-green {
+  h1 {
+    color: darken($dark-green, 30);
+  }
+}
+
+.section-white {
+  background-color: white;
+
+  h1 {
+    color: #333;
+  }
+}
+
+.bg-leaf {
+  @include bg-leaf(darken($light-blue, 5), $light-blue);
+  background-size: 200px;
+  background-position: -40% -30%;
+}
+
+.bg-coin {
+  @include bg-coin($dark-green, $light-green);
+  background-size: 200px;
+  background-position: -40% -30%;
+}
+
+.bg-nook-miles {
+  @include bg-nook-miles(darken($light-brown, 5), $light-brown);
+  background-size: 200px;
+  background-position: -10% -10%;
+}
+
+.section-brown {
+  @include color-section($dark-brown, $light-brown)
+}
+
+.section-blue {
+  @include color-section($dark-blue, $light-blue)
+}
+
+.section-green {
+  @include color-section($dark-green, $light-green)
+}
+
+.blue-bubble {
+  @include elliptical-corners($light-blue, 50);
+  background-color: #1d3153;
+  //  padding: 10em;
+  min-height: 300px;
+  padding: 2em;
+  text-align: center;
+  color: #bbeeff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.white-bubble {
+  // @include elliptical-corners($light-brown, 150);
+  background-color: white;
+  //  padding: 10em;
+  // min-height: 300px;
+  padding: 2em;
+  text-align: center;
+  color: darkgrey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+
+    margin-bottom: 0.5em;
+  }
+}
+
+
+.item-list {
+  list-style-type: none;
+  margin: 0;
+  text-indent: 0;
+
+
+  li {
+    padding: 1em;
+  }
+
+  li:nth-child(odd) {
+    background: darken($light-brown, 10);
+  }
+  li:nth-child(even) {
+    background: darken($light-brown, 5);
+  }  
+}
+
+.beastforest-container {
+  position: relative;
+
+  &.centered {
+    align-items: center;    
+  }
+
+  &.top {
+    align-items: flex-start;
+  }
+
+  &.bottom {
+    align-items: flex-end;
+  }
+
+  height: 100%;
+  display: flex;
+  justify-content: center;
+
+  .background-image, .background-image-nook {
+    position: absolute;
+    background-size: cover;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-position: 50%;
+  }
+
+  .background-image-nook {
+    background-image: url("../images/tomnook.jpg");
+  }
+
+}
+
+.choice-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+
+  a {
+    color: #666;
+    text-decoration: none;
+    cursor: pointer;
+
+    @include rounded-underlines(lighten($light-logo-yellow, 15), white);
+  }
+}
+
+.sidebar {
+  .padding {
+    padding: 2em;
+  }
+
+  h1 {
+    color: $dark-brown;
+    margin-bottom: 0.75em;
+  }
+
+  h2 {
+    color: $dark-brown;
+    font-size: 1em;
+    margin-bottom: 0.25em;
+  }
+
+  h3 {
+    color: $dark-brown;
+    font-size: 0.75em;
+    margin-top: 0.5em;
+  }
+}
+
+.white-corners {
+  margin: 1em 0; 
+
+  .curved-corner-wrapper{
+    background-color: white;
+  }
+
+  .content {
+    padding: 1.1em 1.8em;
+  }
+}
+
+.name {
+  background-color: darken($dark-purple, 10);
+  color: white;
+  // clip-path: url("../images/blob.svg#bean");
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  padding: 0.5em 1.5em;
+  line-height: 1;
+  min-width: 50px;
+  text-align: center;
+  display: inline-block;
+
+}
+
+.speech-bubble-wrapper {
+  position: relative;
+  margin: 2em;
+
+  .name {
+    transform: rotate(-7deg) translateY(-25%) translateX(15%);
+    z-index: 3;
+    text-align: center;
+    font-size: 1.4em;
+
+    * {
+      margin: 0;
+      padding: 0;
+      line-height: 1;
+    }
+  }
+}
+
+.speech-bubble {
+  background-color: white;
+  color: #666;
+  // clip-path: url("../images/blob.svg#bread");
+  padding: 2em 2.5em 1.75em;
+  min-height: 100px;
+  min-width: 300px;
+  max-width: 800px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: $dialogue-font;
+  line-height: 1.6;
+  font-size: 1.8em;
+}
+
+
+.frame {
+  display: grid;
+  grid-template-columns: auto 33.33%;  
+
+  @include for-large {
+    grid-template-columns: auto 25%;  
+  }
+
+  aside, main {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 4em auto 3em;
+  }
+
+  aside {
+    grid-template-rows: auto;
+  }  
+}
+
+section {
+  overflow-y: auto;
+}
+
+header {
+  position: sticky;
+  top: 0;
+
+}
+
+footer {
+  position: sticky;
+  bottom: 0;
+  background-color: silver;
+}
+
+.mask-def {
+  position: absolute;
+  width: 0 !important;
+  height: 0 !important;
+  left: -9999px;
+}
+
+.curved-corner-wrapper {
+  p {
+    color: white;
+  }
+}
+
+.beastforest-logo {
+  font-family: $logo-font;
+  color: $logo-yellow;
+  position: relative;
+  top: 0.075em;
+  text-shadow: -0.03em -0.03em 0 lighten($logo-yellow, 30), -0.015em -0.015em 0 lighten($logo-yellow, 30), 0.03em 0.03em 0 darken($logo-yellow, 35), 0.015em 0.015em 0 darken($logo-yellow, 35);
+  font-size: 3em;
+  padding: 0;
+}
+
+.vertically-centered {
+  display: flex;
+  align-items: center;
+  padding: 1em;
+}
+
+.wood-texture {
+  color: $dark-brown;
+
+  h1 + p {
+    margin-left: 1em;
+  }
+
+  a {
+    color: darken($dark-brown, 10);
+
+    &:hover, &:focus {
+      color: darken($dark-brown, 15);
+    }
+    &:active {
+      color: darken($dark-brown, 30);
+    }
+  }
+}
+
+.wood-texture {
+  @include topography-texture(darken(saturate($wood-light, 5), 7), $wood-light);
+}
+
+.leaf-texture {
+  @include bg-leaf(darken($logo-yellow, 5), $logo-yellow);
+  background-size: 200px;
+  background-position: -5% -40%;
+}
+
+.button {
+  button {
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    display: block;
+    width: 100%;
+    padding: 0.25em;
+
+    color: white;
+    text-decoration: none;
+    font-family: $main-font;
+    border: 0;
+    background-color: $dark-purple;
+
+    @include fluid-units($unit: 'font-size', $min_size: 29px, $max_size: 45px, $min_vw: 1200px, $max_vw: 1900px);
+
+    &:hover, &:focus {
+      background-color: darken($dark-purple, 5)
+    }
+    &:active {
+      background-color: darken($dark-purple, 10)
+    }
+  }
+  &.small {
+    width: auto;
+    display: inline-block;
+    .curved-corner-wrapper {
+      width: auto;
+    }
+    button {
+      font-size: 1em;
+      display: inline-block;
+      width: auto;
+      padding: 0.25em 1em;
+      background-color: $dark-blue;
+
+      &:hover, &:focus {
+        background-color: darken($dark-blue, 5)
+      }
+      &:active {
+        background-color: darken($dark-blue, 10)
+      }
+    }
+  }
+
+  &.big {
+    margin-bottom: 2em;
+  }
+}
+
+input[type=range] {
+  width: 100%;
+}
+
+.file-input-wrapper {
+  cursor: pointer;
+  display: flex;
+  margin-top: 1em;
+  flex-direction: column;
+
+  @include for-medium {
+    flex-direction: row;
+  }
+
+  .text {
+    border: 1px solid darken($logo-yellow, 10);
+    background-color: rgba(lighten($logo-yellow,10), 0.7);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 3px;
+    padding: 0.25em 0.5em;
+    flex: 1;
+    order: 1;
+    display: flex;
+    align-items: center;
+    white-space: pre-wrap;
+    overflow-x: hidden;
+    min-height: 32.5px;
+
+    @include for-medium {
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  .button {
+    background-color: $dark-blue;
+    color: white;
+    padding: 0.25em 0.75em;
+    order: 2;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    line-height: 2;
+
+    // @include for-medium {
+    //   flex-direction: row;
+    // }
+
+    &:hover, &:focus {
+      background-color: darken($dark-blue, 15);
+    }
+    &:active {
+      background-color: darken($dark-blue, 20);
+    }
+  }
+
+  input[type=file] {
+    position: absolute;
+    left: -999999px;
+  }
+}
+
+input[type=text], textarea {
+  width: 100%;
+  border: 1px solid darken($logo-yellow, 5);
+  background-color: rgba(lighten($logo-yellow, 30), 0.7);
+  border-radius: 3px;
+  font-size: 0.75em;
+  padding: 0.25em;
+  font-family: $main-font;
+  margin: 0.5em 0;
+}
+
+textarea {
+  height: 7em;
+}
+
+label > div {
+  font-size: 0.8em;
+  line-height: 1;
+}
+
+.content {
+  label > div{
+    margin-top: 0.75em;
+  }
+}
+
+.loading-indicator {
+  position: fixed;
+  background-color: rgba(0,0,0,0.5);
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::before {
+    background-image: linear-gradient(45deg, rgba(black, 0.1), rgba(white, 0.2));
+    background-size: 400%;
+    animation: backgroundShift 1s ease infinite;
+    clip-path: url('#single-leaf');
+    display: block;
+    content: '';
+    width: 100px;
+    height: 100px;
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
+@keyframes backgroundShift {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}

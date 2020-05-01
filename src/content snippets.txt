@@ -1,0 +1,48 @@
+.wrapper 
+  .squircle 
+    .content
+      p Hello there
+
+.section-brown
+  h1 Flimsy axe
+  hr
+  .wrapper 
+    .content
+      ul.item-list
+        each item in [...Array(5).keys()]
+          li #{item}
+
+.section-blue.bg-leaf
+  h1 I say hello
+.section-brown.bg-nook-miles
+  h1 You say goodbye      
+
+.section-blue.padding
+  .blue-bubble
+    .content
+      p How is everything?
+
+.section-brown.padding
+  .white-bubble
+    .content
+      h1 Do you want it?
+      ul.choice-list
+        li 
+          a(onclick="void()") Absolutely!
+        li 
+          a(onclick="void()") No way.              
+.section-blue.padding
+  .speech-bubble
+    .name
+      p Kevin 
+    .content 
+      p Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur ipsum quam voluptates modi ab nulla, maxime delectus corrupti pariatur? Hic quae aspernatur, saepe nihil veritatis obcaecati quo similique reiciendis praesentium.
+      //- each item in [...Array(3).keys()]
+      //-   p How are you?
+.section-brown.padding
+  .speech-bubble-wrapper
+    .name 
+      p LarryDavid
+    .speech-bubble-2 
+      .content
+        p Lorem ipsum dolor sit amet!

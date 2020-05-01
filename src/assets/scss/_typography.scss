@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Seurat';
+    src: url('../fonts/seurat-pro-db.woff2') format('woff2'), url('../fonts/seurat-pro-db.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Rodin';
+    src: url('../fonts/rodin-bokutoh-pro-eb.woff2') format('woff2'), url('../fonts/rodin-bokutoh-pro-eb.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Fink';
+    src: url('../fonts/fink-heavy.woff2') format('woff2'), url('../fonts/fink-heavy.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+$main-font: 'Seurat', "VAG Rounded", "Arial Rounded", "Arial Rounded MT Bold", sans-serif;
+
+$dialogue-font: 'Rodin', 'Open Sans', Arial, sans-serif;
+
+$logo-font: "Fink", "Lubalin Graph", "Rockwell", serif;
