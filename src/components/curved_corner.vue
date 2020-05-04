@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapper">
+  <div>
     <svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' :viewBox="'0 0 ' + svgwidth + ' ' + svgheight" class="mask-def"> 
     <defs>
     <clipPath :id="id"><path :d="'M0,0\
@@ -25,7 +25,7 @@ import _ from 'lodash'
 
 export default {
   name: 'curved-corner',
-  props: ['curvature'],
+  props: ['trycurvature'],
   data: function() {
     return{
       svgwidth: 0,
@@ -48,6 +48,15 @@ export default {
   updated() {
     this.svgResize()
   },
+  computed: {
+    curvature: function() {
+      if (window.matchMedia("(max-width: 812px)").matches) {
+        return 15
+      } else {
+        return this.trycurvature
+      }
+    }
+  },
   methods: {
     svgResize() {
       this.svgwidth = this.$el.clientWidth
@@ -58,6 +67,3 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
-</style>

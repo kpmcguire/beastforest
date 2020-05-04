@@ -249,11 +249,11 @@ h1 {
   left: 0;
   top: 0;
   z-index: 10;
-  padding: 0.5em 1.5em;
   line-height: 1;
   min-width: 50px;
   text-align: center;
   display: inline-block;
+
 
 }
 
@@ -267,10 +267,8 @@ h1 {
     text-align: center;
     font-size: 1.4em;
 
-    * {
-      margin: 0;
-      padding: 0;
-      line-height: 1;
+    > p {
+      margin: 0.5em 1.5em;
     }
   }
 }
@@ -279,7 +277,7 @@ h1 {
   background-color: white;
   color: #666;
   // clip-path: url("../images/blob.svg#bread");
-  padding: 2em 2.5em 1.75em;
+  // padding: 2em 2.5em 1.75em;
   min-height: 100px;
   min-width: 300px;
   max-width: 800px;
@@ -292,12 +290,26 @@ h1 {
   font-family: $dialogue-font;
   line-height: 1.6;
   font-size: 1.8em;
+
+  .content {
+    padding: 2em 2.5em 1.75em;
+
+  }
 }
 
 
 .frame {
   display: grid;
   grid-template-columns: auto 33.33%;  
+  font-size: 50%;
+
+  @include for-small {
+    font-size: 60%;
+  }
+
+  @include for-large {
+    font-size: 100%;
+  }
 
   @include for-large {
     grid-template-columns: auto 25%;  
@@ -403,7 +415,7 @@ footer {
     border: 0;
     background-color: $dark-purple;
 
-    @include fluid-units($unit: 'font-size', $min_size: 29px, $max_size: 45px, $min_vw: 1200px, $max_vw: 1900px);
+    @include fluid-units($unit: 'font-size', $min_size: 20px, $max_size: 45px, $min_vw: 1000px, $max_vw: 1900px);
 
     &:hover, &:focus {
       background-color: darken($dark-purple, 5)
@@ -486,10 +498,6 @@ input[type=range] {
     display: flex;
     align-items: center;
     line-height: 2;
-
-    // @include for-medium {
-    //   flex-direction: row;
-    // }
 
     &:hover, &:focus {
       background-color: darken($dark-blue, 15);

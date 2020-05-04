@@ -11,9 +11,9 @@
           .background-image(v-if="myBackground" :style="'background-image:url('+myBackground+')'")
           include assets/images/blob.svg
           .speech-bubble-wrapper
-            .name(style="clip-path: url(#bean)")
+            .name(style="clip-path: url(#bean);-webkit-clip-path: url(#bean)")
               p {{speakers_name}}
-            .speech-bubble(style="clip-path: url(#bread)")
+            .speech-bubble(style="clip-path: url(#bread);-webkit-clip-path: url(#bread);")
               .content
                 p {{contents}}
       footer.wood-texture.vertically-centered.footer-container
@@ -24,16 +24,16 @@
       section.padding
         h1 Options
 
-        curved-corner.button.small(curvature="25" v-if="!is_pattern")
+        curved-corner.button.small(trycurvature="20" v-if="!is_pattern")
           button(@click="togglePatternOrImage()") Use Pattern
-        curved-corner.button.small(curvature="25" v-if="is_pattern")
+        curved-corner.button.small(trycurvature="20" v-if="is_pattern")
           button(@click="togglePatternOrImage()" v-if="is_pattern") Use Image
         
         label.file-input-wrapper(v-if="!is_pattern")
-          .button Upload
+          .button Load Image
           .text {{uploaded_file_name}}
           input(type="file" @change='uploadImage')
-        curved-corner.white-corners(curvature="50" v-if="is_pattern")
+        curved-corner.white-corners(trycurvature="50" v-if="is_pattern")
           h2 Pattern Color
           ul.choice-list
             li 
@@ -42,7 +42,7 @@
               a(@click="changeColor('section-brown')" v-html="this.splitText('Brown')") 
               li 
               a(@click="changeColor('section-blue')" v-html="this.splitText('Blue')")
-        curved-corner.white-corners(curvature="50" v-if="is_pattern")
+        curved-corner.white-corners(trycurvature="50" v-if="is_pattern")
           h2 Pattern Content
           ul.choice-list
             li 
@@ -54,7 +54,7 @@
             li 
               h3 Pattern Spacing
               input(type="range" min="50" max="1000" step="10" v-model="background_size") 
-        curved-corner.white-corners(curvature="50")
+        curved-corner.white-corners(trycurvature="50")
           h2 Caption Content
           label
             div Name
@@ -62,7 +62,7 @@
           label
             div Contents
             textarea(v-model="contents" ) 
-        curved-corner.white-corners(curvature="50")
+        curved-corner.white-corners(trycurvature="50")
           h2 Caption Position
           ul.choice-list
             li 
@@ -71,7 +71,7 @@
               a(@click="changeContainerAlign('centered')" v-html="this.splitText('Centered')") 
             li 
               a(@click="changeContainerAlign('bottom')" v-html="this.splitText('Bottom')" ) 
-        curved-corner.button.big(curvature="45")
+        curved-corner.button.big(trycurvature="45")
           button(@click="makeImage('frame')") Export Image
 
 
