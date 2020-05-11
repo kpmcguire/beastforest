@@ -38,7 +38,9 @@ export default {
   },
   mounted() {
     // only way to get the stupid thing to actually get the correct dimensions
-    setTimeout(()=>{ this.svgResize() }, 75);
+    setTimeout(()=>{ 
+      this.svgResize() 
+    }, 75);
 
     window.addEventListener('resize', _.debounce(() => {``
       this.svgResize()

@@ -3,10 +3,10 @@
     .loading-indicator(:class="{hidden: this.loaded}")
     main
       header.wood-texture.vertically-centered.logo-wrapper
-        h1.beastforest-logo Beast Forest
+        h1.beastforest-logo#logo Beast Forest
         p Caption Maker
       section
-        .beastforest-container(id="beastforest-container" :class="[container_class, container_color_class, container_vertical_align_class]" :style="'background-size: '+ background_size +'px'")
+        .beastforest-container(id="beastforest-container" ref="printMe" :class="[container_class, container_color_class, container_vertical_align_class]" :style="'background-size: '+ background_size +'px'")
           .background-image-nook(v-if="!is_pattern && !myBackground")
           .background-image(v-if="myBackground" :style="'background-image:url('+myBackground+')'")
           include assets/images/blob.svg
@@ -22,8 +22,8 @@
           a(href="https://kpmcguire.github.io") Kevin McGuire
     aside.sidebar.leaf-texture
       section.padding
+        //- #tmpImage(style="width: 200px;height: 200px;")
         h1 Options
-
         curved-corner.button.small(trycurvature="20" v-if="!is_pattern")
           button(@click="togglePatternOrImage()") Use Pattern
         curved-corner.button.small(trycurvature="20" v-if="is_pattern")
@@ -72,8 +72,7 @@
             li 
               a(@click="changeContainerAlign('bottom')" v-html="this.splitText('Bottom')" ) 
         curved-corner.button.big(trycurvature="45")
-          button(@click="makeImage('frame')") Export Image
-
+          button(@click="makeImage" v-if="this.loaded == true") Export Image
 
 </template>
 
@@ -90,10 +89,12 @@
         background_size: '200',
         contents: "It seems there's a magic wand that, if you make a wish and give it a wave, lets you become a whole new you!",
         is_pattern: true,
-        output: null,
         myBackground: null,
         uploaded_file_name: null,
-        loaded: false
+        loaded: false,
+        tempImage: '',
+        safari: false,
+        repeat: 1
       }
     },
     components: {
@@ -103,15 +104,60 @@
     computed: {
 
     },
+    watch: {
+      myBackground: function(){
+        this.prepareImage()
+      },
+      speakers_name: function(){
+        this.prepareImage()
+      },
+      contents: function(){
+        this.prepareImage()
+      },
+      is_pattern: function(){
+        this.prepareImage()
+      },
+      container_class: function(){
+        if(this.is_pattern) {
+          this.prepareImage()
+        }
+      },
+      container_color_class: function(){
+        if(this.is_pattern) {
+          this.prepareImage()
+        }
+      },
+      background_size: function(){
+        if(this.is_pattern) {
+          this.prepareImage()
+        }
+      },
+      container_vertical_align_class: function(){
+        if(this.is_pattern) {
+          this.prepareImage()
+        }
+      },
+    
+    },
 
     created() {
 
     },
 
     mounted() {
+      this.safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+      if(this.safari) {
+        // this is super hacky but it seems to make ios safari work
+        this.repeat = 20
+      }
       this.loaded = true
-    },
+      this.prepareImage()
 
+    },
+    updated(){
+      // this.fakeMakeImage()
+      // this.prepareImage()
+    },
     methods: {
       changeColor(color) {
         this.container_color_class = color
@@ -126,57 +172,71 @@
         this.is_pattern = !this.is_pattern
         if (this.is_pattern) {
           this.myBackground = null
-          this.uploaded_file_name = null
-          this.container_class = 'bg-leaf'
-          this.container_color_class = 'section-blue'
+          // this.uploaded_file_name = null
+          // this.container_class = 'bg-leaf'
+          // this.container_color_class = 'section-blue'
+        } else {
+          // this.container_class = ''
+          // this.container_color_class = ''
+          // this.prepareImage()
         }
       },
-      makeImage() {
-        this.loaded = false
+      prepareImage() {        
+        // this.loaded = false
         var node = document.getElementById('beastforest-container');
         const scale = 3;
 
-        domtoimage.toJpeg(node, {
-          quality: 0.95,
-          height: node.offsetHeight * scale, 
-          width: node.offsetWidth * scale,
-          style: {
-            transform: "scale(" + scale + ")", 
-            transformOrigin: "top left", 
-            width: node.offsetWidth + "px", 
-            height: node.offsetHeight + "px"
-          }
-        })
-        .then((dataUrl) => {
-          let timestamp = ''
-          const now = new Date()
+        return new Promise(resolve=>{
+          domtoimage.toJpeg(node, {
+            quality: 0.95,
+            height: node.offsetHeight * scale, 
+            width: node.offsetWidth * scale,
+            style: {
+              transform: "scale(" + scale + ")", 
+              transformOrigin: "top left", 
+              width: node.offsetWidth + "px", 
+              height: node.offsetHeight + "px"
+            }
+          }).then((data)=>{
+              let new_image = new Image()
+              new_image.src = data
+              new_image.onload = ()=>{
+                for(let i = 0;i<this.repeat;i++) {
+                  // let image_wrapper = document.getElementById('tmpImage')
+                  // image_wrapper.innerHTML = ''
+                  // image_wrapper.appendChild(new_image)
+                  resolve(new_image.src)
+                }
 
-          timestamp = now.getFullYear().toString()
-          timestamp += `${now.getMonth()+1}`.toString()
-          timestamp += now.getDate().toString()
-          timestamp += now.getHours().toString()
-          timestamp += now.getMinutes().toString()
-          timestamp += now.getSeconds().toString()
-
-          var link = document.createElement('a');
-          link.download = `beast-forest-${timestamp}.jpg`;
-          link.href = dataUrl;
-          this.loaded = true
-          link.click();
+              }
+          })
         })
-        .catch(function (error) {
-          console.error('oops, something went wrong!', error);
-        }); 
+      },
+      async makeImage() {
+      
+        let timestamp = ''
+        const now = new Date()
+
+        timestamp = now.getFullYear().toString()
+        timestamp += `${now.getMonth()+1}`.toString()
+        timestamp += now.getDate().toString()
+        timestamp += now.getHours().toString()
+        timestamp += now.getMinutes().toString()
+        timestamp += now.getSeconds().toString()
+
+        var link = document.createElement('a');
+        link.download = `beast-forest-${timestamp}.jpg`;
+        link.href = await this.prepareImage();
+        link.click(); 
+        this.loaded = true; 
       },
       uploadImage(e){
         const image = e.target.files[0]
         const reader = new FileReader()
         reader.readAsDataURL(image)
         this.uploaded_file_name = image.name
-        this.container_class = null
-        this.container_color_class = 'section-white'
         reader.onload = e =>{
-          this.myBackground = e.target.result          
+          this.myBackground = e.target.result
         }
       },
       splitText(text) {
@@ -194,7 +254,6 @@
     }
   }
 
-  
 </script>
 
 
@@ -245,5 +304,10 @@
   100% {
     transform: translateY(0) scale(1);
   }
+}
+
+#tmpImage img {
+  width: 200px;
+  height: 200px;
 }
 </style>

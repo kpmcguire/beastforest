@@ -349,6 +349,11 @@ footer {
   left: -9999px;
 }
 
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
 .curved-corner-wrapper {
   p {
     color: white;
@@ -360,7 +365,13 @@ footer {
   color: $logo-yellow;
   position: relative;
   top: 0.075em;
-  text-shadow: -0.03em -0.03em 0 lighten($logo-yellow, 30), -0.015em -0.015em 0 lighten($logo-yellow, 30), 0.03em 0.03em 0 darken($logo-yellow, 35), 0.015em 0.015em 0 darken($logo-yellow, 35);
+  text-shadow: -0.06em -0.06em 0 lighten($logo-yellow, 30), -0.03em -0.03em 0 lighten($logo-yellow, 30), 0.06em 0.06em 0 darken($logo-yellow, 35), 0.03em 0.03em 0 darken($logo-yellow, 35);
+
+
+  @include for-medium {
+    text-shadow: -0.03em -0.03em 0 lighten($logo-yellow, 30), -0.015em -0.015em 0 lighten($logo-yellow, 30), 0.03em 0.03em 0 darken($logo-yellow, 35), 0.015em 0.015em 0 darken($logo-yellow, 35);
+  }
+
   font-size: 3em;
   padding: 0;
 }
@@ -572,4 +583,8 @@ label > div {
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
+}
+
+.hidden {
+  display: none;
 }
