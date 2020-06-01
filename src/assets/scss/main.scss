@@ -52,13 +52,13 @@ h1 {
   line-height: 1.25;
 }
 
-.section-blue {
-  background: $light-blue;
+// .section-blue {
+//   background: $light-blue;
   
-  h1 {
-    color: $dark-blue;
-  }
-}
+//   h1 {
+//     color: $dark-blue;
+//   }
+// }
 
 .section-green {
   h1 {
@@ -75,34 +75,34 @@ h1 {
 }
 
 .bg-leaf {
-  @include bg-leaf(darken($light-blue, 5), $light-blue);
+  @include bg-leaf;
   background-size: 200px;
   background-position: -40% -30%;
 }
 
 .bg-coin {
-  @include bg-coin($dark-green, $light-green);
+  @include bg-coin;
   background-size: 200px;
   background-position: -40% -30%;
 }
 
 .bg-nook-miles {
-  @include bg-nook-miles(darken($light-brown, 5), $light-brown);
+  @include bg-nook-miles;
   background-size: 200px;
   background-position: -10% -10%;
 }
 
-.section-brown {
-  @include color-section($dark-brown, $light-brown)
-}
+// .section-brown {
+//   @include color-section($dark-brown, $light-brown)
+// }
 
-.section-blue {
-  @include color-section($dark-blue, $light-blue)
-}
+// .section-blue {
+//   @include color-section($dark-blue, $light-blue)
+// }
 
-.section-green {
-  @include color-section($dark-green, $light-green)
-}
+// .section-green {
+//   @include color-section($dark-green, $light-green)
+// }
 
 .blue-bubble {
   @include elliptical-corners($light-blue, 50);
@@ -156,6 +156,10 @@ h1 {
 
 .beastforest-container {
   position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 
   &.centered {
     align-items: center;    
@@ -169,10 +173,6 @@ h1 {
     align-items: flex-end;
   }
 
-  height: 100%;
-  display: flex;
-  justify-content: center;
-
   .background-image, .background-image-nook {
     position: absolute;
     background-size: cover;
@@ -185,9 +185,27 @@ h1 {
     background-position: 50%;
   }
 
+  
   .background-image-nook {
     background-image: url("../images/tomnook.jpg");
   }
+
+
+
+  .background-pattern-wrapper, .background-pattern {
+    width: 100%;
+    height: 100%;
+  }
+
+  .background-pattern-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+  }
+
 
 }
 
@@ -207,6 +225,22 @@ h1 {
 }
 
 .sidebar {
+  position: relative;
+  .background-pattern-wrapper {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background-color: $logo-yellow;
+    z-index: -1;
+  }
+
+  .background-pattern {
+    background-color: darken($logo-yellow, 5);
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    mask-size: 200px;
+    mask-position: -40% -30%;
+  }
+
   .padding {
     padding: 2em;
   }
@@ -242,7 +276,7 @@ h1 {
 }
 
 .name {
-  background-color: darken($dark-purple, 10);
+  // background-color: darken($dark-purple, 10);
   color: white;
   // clip-path: url("../images/blob.svg#bean");
   position: absolute;
@@ -406,7 +440,7 @@ footer {
 }
 
 .leaf-texture {
-  @include bg-leaf(darken($logo-yellow, 5), $logo-yellow);
+  @include bg-leaf;
   background-size: 200px;
   background-position: -5% -40%;
 }
@@ -587,4 +621,15 @@ label > div {
 
 .hidden {
   display: none;
+}
+
+.colorpicker {
+  
+
+  label {
+    color: #666;
+    display: flex;
+    align-items: center;
+    font-size: 80%;
+  }
 }

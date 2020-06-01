@@ -37,10 +37,11 @@ export default {
     this.id = `mask${this._uid}`
   },
   mounted() {
-    // only way to get the stupid thing to actually get the correct dimensions
-    setTimeout(()=>{ 
-      this.svgResize() 
-    }, 75);
+    this.svgResize()
+
+    window.addEventListener("load", ()=> {
+      this.svgResize()
+    });
 
     window.addEventListener('resize', _.debounce(() => {``
       this.svgResize()

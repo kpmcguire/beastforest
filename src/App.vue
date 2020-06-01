@@ -6,29 +6,34 @@
         h1.beastforest-logo#logo Beast Forest
         p Caption Maker
       section
-        .beastforest-container(id="beastforest-container" ref="printMe" :class="[container_class, container_color_class, container_vertical_align_class]" :style="'background-size: '+ background_size +'px'")
-          .background-image-nook(v-if="!is_pattern && !myBackground")
-          .background-image(v-if="myBackground" :style="'background-image:url('+myBackground+')'")
+        .beastforest-container(id="beastforest-container" :class="[ container_vertical_align_class]")
           include assets/images/blob.svg
+          div(v-if="!is_pattern")
+            .background-image-nook(v-if="!is_pattern && !myBackground")
+            .background-image(v-if="myBackground" :style="'background-image:url('+myBackground+')'")
+            .speech-bubble-wrapper
+
+          .background-pattern-wrapper(v-else :style="'background-color:'+bgcolor")
+            .background-pattern(:class="container_class" :style="'mask-size: '+ background_size +'px;'+' background-color: '+fgcolor+''")
           .speech-bubble-wrapper
-            .name(style="clip-path: url(#bean);-webkit-clip-path: url(#bean)")
-              p {{speakers_name}}
-            .speech-bubble(style="clip-path: url(#bread);-webkit-clip-path: url(#bread);")
-              .content
-                p {{contents}}
+              .name(:style="'clip-path: url(#bean); -webkit-clip-path: url(#bean); background-color:'+name_bg_color+'; color: '+name_fg_color")
+                p {{speakers_name}}
+              .speech-bubble(:style="'clip-path: url(#bread);-webkit-clip-path: url(#bread);background-color:'+caption_bg_color")
+                .content
+                  p(:style="'color: '+caption_fg_color") {{contents}}
       footer.wood-texture.vertically-centered.footer-container
         small 
           | A DIY project from 
           a(href="https://kpmcguire.github.io") Kevin McGuire
-    aside.sidebar.leaf-texture
+    aside.sidebar
+      .background-pattern-wrapper
+        .background-pattern.leaf-texture
       section.padding
-        //- #tmpImage(style="width: 200px;height: 200px;")
         h1 Options
-        curved-corner.button.small(trycurvature="20" v-if="!is_pattern")
+        curved-corner.button.small(ref="curve" trycurvature="20" v-if="!is_pattern")
           button(@click="togglePatternOrImage()") Use Pattern
-        curved-corner.button.small(trycurvature="20" v-if="is_pattern")
+        curved-corner.button.small(ref="curve" trycurvature="20" v-if="is_pattern")
           button(@click="togglePatternOrImage()" v-if="is_pattern") Use Image
-        
         label.file-input-wrapper(v-if="!is_pattern")
           .button Load Image
           .text {{uploaded_file_name}}
@@ -37,11 +42,19 @@
           h2 Pattern Color
           ul.choice-list
             li 
-              a(@click="changeColor('section-green')" v-html="this.splitText('Green')")
+              a(@click="changeColor('#B1E254', '#BDE66E')" v-html="this.splitText('Green')")
             li 
-              a(@click="changeColor('section-brown')" v-html="this.splitText('Brown')") 
-              li 
-              a(@click="changeColor('section-blue')" v-html="this.splitText('Blue')")
+              a(@click="changeColor('#DDD5B7', '#E7E1CC')" v-html="this.splitText('Brown')") 
+            li 
+              a(@click="changeColor('#A8BAEB', '#C1CEF1')" v-html="this.splitText('Blue')")
+            li.colorpicker
+              h3 Custom Colors
+              label 
+                span Foreground Color
+                input(type="color" v-model="fgcolor")
+              label 
+                span Background Color                
+                input(type="color" v-model="bgcolor")
         curved-corner.white-corners(trycurvature="50" v-if="is_pattern")
           h2 Pattern Content
           ul.choice-list
@@ -63,6 +76,22 @@
             div Contents
             textarea(v-model="contents" ) 
         curved-corner.white-corners(trycurvature="50")
+          h2 Caption Colors
+            ul.choice-list
+              li.colorpicker
+                label
+                  span Name Background Color
+                  input(type="color" v-model="name_bg_color") 
+                label
+                  span Name Foreground Color
+                  input(type="color" v-model="name_fg_color") 
+                label
+                  span Caption Background Color
+                  input(type="color" v-model="caption_bg_color") 
+                label
+                  span Caption Foreground Color
+                  input(type="color" v-model="caption_fg_color")               
+        curved-corner.white-corners(trycurvature="50")
           h2 Caption Position
           ul.choice-list
             li 
@@ -79,6 +108,7 @@
 <script>
   import curved_corner from './components/curved_corner'
   import domtoimage from 'dom-to-image'
+
   export default {
     data() {
       return {
@@ -94,7 +124,13 @@
         loaded: false,
         tempImage: '',
         safari: false,
-        repeat: 1
+        repeat: 1,
+        bgcolor: '#E7E1CC',
+        fgcolor: '#DDD5B7',
+        name_bg_color: '#59365a',
+        name_fg_color: '#ffffff',
+        caption_fg_color: '#666',
+        caption_bg_color: '#ffffff'
       }
     },
     components: {
@@ -155,12 +191,12 @@
 
     },
     updated(){
-      // this.fakeMakeImage()
-      // this.prepareImage()
+
     },
     methods: {
-      changeColor(color) {
-        this.container_color_class = color
+      changeColor(fgcolor, bgcolor) {
+        this.bgcolor = bgcolor
+        this.fgcolor = fgcolor
       },
       changeContainer(container) {
         this.container_class = container
@@ -172,17 +208,10 @@
         this.is_pattern = !this.is_pattern
         if (this.is_pattern) {
           this.myBackground = null
-          // this.uploaded_file_name = null
-          // this.container_class = 'bg-leaf'
-          // this.container_color_class = 'section-blue'
-        } else {
-          // this.container_class = ''
-          // this.container_color_class = ''
-          // this.prepareImage()
         }
+        this.$refs.curve.svgResize()
       },
       prepareImage() {        
-        // this.loaded = false
         var node = document.getElementById('beastforest-container');
         const scale = 3;
 
@@ -202,12 +231,8 @@
               new_image.src = data
               new_image.onload = ()=>{
                 for(let i = 0;i<this.repeat;i++) {
-                  // let image_wrapper = document.getElementById('tmpImage')
-                  // image_wrapper.innerHTML = ''
-                  // image_wrapper.appendChild(new_image)
                   resolve(new_image.src)
                 }
-
               }
           })
         })
@@ -310,4 +335,7 @@
   width: 200px;
   height: 200px;
 }
+
+
+
 </style>
